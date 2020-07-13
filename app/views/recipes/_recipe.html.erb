@@ -1,0 +1,29 @@
+<% obj.each do |recipe| %>
+  <div class="row">
+    <div class="col-md-2">
+      <section class="chef_info center">
+        <%= gravatar_for(recipe.chef, size: 120) %>
+      </section>
+    </div>
+    <div class="col-md-8 well">
+      <h4><%= link_to recipe.name, recipe_path(recipe) %></h4>
+      <p><%= truncate(recipe.description, length: 150) %></p>
+      <p>
+        <span class="quiet"><small>Created 
+          <%= time_ago_in_words(recipe.created_at) %> ago</small></span>
+      </p> 
+
+      <!-- current_chef, logged_in? dan require_user ada di application_controller.rb -->
+
+      <!-- Maksudnya adalah, yg bisa melihat tombol edit dan delete hanyalah:
+          "Orang yg sudah login DAN (orang si pemilik resep tsb (yg sudah login) ATAU admin platform)" -->
+
+      <% if logged_in? && (current_chef == recipe.chef || current_chef.admin?) %>
+        <div class="recipe-actions">
+          <%= link_to "Edit this recipe", edit_recipe_path(recipe), class: "btn btn-xs btn-warning" %>
+          <%= link_to "Delete this recipe", recipe_path(recipe), method: :delete, data: { confirm: "Are you sure you want to delete this recipe?" }, class: "btn btn-xs btn-danger" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
