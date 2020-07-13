@@ -49,7 +49,7 @@ class ChefsController < ApplicationController
     if !@chef.admin? # Maksudnya "bukan admin"
       @chef.destroy 
       flash[:danger] = "Chef and all associated recipes have been deleted"
-      redirect_to users_path
+      redirect_to chefs_path
     end
   end
 
