@@ -8,11 +8,18 @@
     <div class="col-md-8 well">
       <h4><%= link_to recipe.name, recipe_path(recipe) %></h4>
       <p><%= truncate(recipe.description, length: 150) %></p>
-      <p>
-        <span class="quiet"><small>Created 
-          <%= time_ago_in_words(recipe.created_at) %> ago</small></span>
-      </p> 
 
+      <!-- Maksudnya adalah, kalau ada ingredient yg berkaitan dengan resep ini maka tampilkan-->
+      <% if recipe.ingredients.any? %>
+        <p>Ingredients: <%= render recipe.ingredients %></p> <!-- Ini cara cepat dari Rails utk looping-->
+      <% end %>
+
+      <p>
+        <span class="quiet"><small>Created <%= time_ago_in_words(recipe.created_at) %> ago by <%= recipe.chef.chefname.capitalize %> | 
+              <%= pluralize(recipe.comments.count, 'Comment') %></small>
+        </span>
+      </p> 
+                            
       <!-- current_chef, logged_in? dan require_user ada di application_controller.rb -->
 
       <!-- Maksudnya adalah, yg bisa melihat tombol edit dan delete hanyalah:
